@@ -1,0 +1,4 @@
+php_value date.timezone America/Mexico_City
+ErrorDocument 403 /fall/403.html
+ErrorDocument 404 /fall/404.html
+ErrorDocument 500 /fall/500.html

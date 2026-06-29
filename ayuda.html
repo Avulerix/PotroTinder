@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Potro-Tinder | Seguridad</title>
+    <!-- Fuentes modernas y limpias -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <!-- FontAwesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #fefaf7;
+            color: #2d2a2e;
+            line-height: 1.5;
+        }
+
+        /* header con navegación */
+        .app-header {
+            background: white;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(8px);
+            background: rgba(255, 255, 250, 0.95);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo a {
+            font-size: 1.6rem;
+            font-weight: 800;
+            text-decoration: none;
+            color: rgb(226, 43, 150);
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo i {
+            color: rgb(33, 100, 16);
+            font-size: 1.4rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.8rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            font-weight: 500;
+            color: #3a3a3a;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: rgb(226, 43, 150);
+        }
+
+        .btn-small {
+            background: rgb(98, 186, 75);
+            color: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 40px;
+            font-weight: 600;
+        }
+
+        .btn-small:hover {
+            background: #6e125f;
+            color: white;
+        }
+
+        /* main contenido */
+        .help-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 2rem;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+        }
+
+        .help-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .help-header h1 {
+            font-size: 2.2rem;
+            color: rgb(33, 100, 16);
+            margin-bottom: 0.5rem;
+        }
+
+        .help-header p {
+            color: #6c6f6a;
+        }
+
+        .faq-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            margin: 2rem 0;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1rem;
+        }
+
+        .faq-question {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: rgb(226, 43, 150);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 0.5rem;
+        }
+
+        .faq-question i {
+            color: rgb(33, 100, 16);
+            width: 24px;
+        }
+
+        .faq-answer {
+            color: #4a4e46;
+            padding-left: 36px;
+        }
+
+        .contact-card {
+            background: #f6f9f3;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            text-align: center;
+            border: 1px solid rgba(33, 100, 16, 0.2);
+        }
+
+        .contact-card h3 {
+            color: rgb(33, 100, 16);
+            margin-bottom: 0.8rem;
+        }
+
+        .contact-email {
+            background: white;
+            display: inline-block;
+            padding: 0.6rem 1.5rem;
+            border-radius: 60px;
+            font-weight: 600;
+            color: rgb(226, 43, 150);
+            margin-top: 0.8rem;
+        }
+
+        .footer-help {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.8rem;
+            color: #8f9b87;
+        }
+
+        @media (max-width: 700px) {
+            .help-container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+            .nav-links {
+                gap: 1rem;
+            }
+            .header-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-container">
+            <div class="logo">
+                <a href="index.html" style="color: rgb(33, 100, 16);">
+                    <i class="fas fa-heart" style=" color: rgb(226, 43, 150);; font-size: 0.9em;"></i> 
+                    Potro-Tinder
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Inicio</a>
+                <a href="ayuda.html" style="color: rgb(226, 43, 150); font-weight: 600;">Ayuda</a>
+                <a href="seguridad.html">Privacidad</a>
+                <a href="registrer.html" class="btn-small">Registrarme</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="help-container">
+        <div class="help-header">
+            <h1><i class="fas fa-life-ring"></i> Centro de ayuda</h1>
+            <p>Resolvemos tus dudas para que tu experiencia sea inolvidable</p>
+        </div>
+
+        <div class="faq-grid">
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-user-plus"></i> ¿Cómo crear mi perfil?</div>
+                <div class="faq-answer">
+                    Regístrate con email o redes sociales, completa tus intereses y sube una foto.
+                </div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">
+                    <i class="fas fa-shield-alt"></i>
+                    ¿Es segura la plataforma?</div>
+                <div class="faq-answer">Sí, contamos con verificación de identidad, moderación 24/7 y cifrado de datos. Nunca compartimos datos sensibles sin tu consentimiento.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-comment-dots"></i> ¿Cómo inicio una conversación?</div>
+                <div class="faq-answer">Cuando te guste alguien dentro de la plataforma, Podrás enviar mensajes desde whatsapp o correo de contacto colocado por el usuario.</div>
+            </div>
+            <!------
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-ban"></i> ¿Puedo bloquear a un usuario?</div>
+                <div class="faq-answer">Sí, en cada perfil encontrarás la opción de bloquear o reportar. Nuestro equipo revisa cada reporte para mantener la comunidad segura.</div>
+            </div>
+            ------->
+            <div class="faq-item">
+                <div class="faq-question"><i class="fas fa-credit-card"></i> ¿Es gratuito?</div>
+                <div class="faq-answer">Sí, Todos los elementos de la plataforma son 100% gratis. Existen futuras funciones premium opcionales como ver quién te dio like.</div>
+            </div>
+        </div>
+
+        <div class="contact-card">
+            <h3><i class="fas fa-headset"></i> ¿Necesitas asistencia personalizada?</h3>
+            <p>Escríbenos a nuestro soporte y te responderemos en menos de 24h.</p>
+            <div class="contact-email">
+                <i class="fas fa-envelope">
+                </i>
+                <a mí href="https://t.me/potroadmin" style="text-decoration: none; color: blue;">Telegram</a>
+            </div>
+        </div>
+        <div class="footer-help">
+            <i class="fas fa-clock"></i> Atención de lunes a domingo, 9:00 a 21:00 (GMT-3)
+        </div>
+    </main>
+</body>
+</html>

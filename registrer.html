@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PotroTinder | Registro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #fefaf7 0%, #f0f5ec 100%);
+            padding: 2rem 1rem;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 2rem;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: rgb(33,100,16);
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+        .subtitle {
+            text-align: center;
+            color: #6c7a64;
+            margin-bottom: 2rem;
+        }
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2c3a26;
+        }
+        label i {
+            color: rgb(226,43,150);
+            margin-right: 8px;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1.5px solid #e2e8dc;
+            border-radius: 1rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: rgb(226,43,150);
+            box-shadow: 0 0 0 3px rgba(226,43,150,0.1);
+        }
+        input.error-field, select.error-field {
+            border-color: rgb(226,43,150);
+            background-color: #fff5f5;
+        }
+        .row-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .upload-area {
+            border: 2px dashed #cbdcc1;
+            border-radius: 1rem;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            background: #fafef7;
+            transition: all 0.2s;
+        }
+        .upload-area:hover {
+            border-color: rgb(33,100,16);
+            background: #f6fbf2;
+        }
+        .upload-area i {
+            font-size: 2rem;
+            color: rgb(33,100,16);
+        }
+        /* Estilos para la previsualización de imágenes */
+        .image-preview-container {
+            margin-top: 0.8rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100px;
+        }
+        .image-preview {
+            max-width: 100%;
+            max-height: 200px;
+            width: auto;
+            height: auto;
+            border-radius: 0.8rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            object-fit: contain;
+            display: block;
+        }
+        .preview-placeholder {
+            color: #8da082;
+            font-size: 0.8rem;
+            text-align: center;
+            padding: 1rem;
+            background: #f5f9f2;
+            border-radius: 0.8rem;
+            width: 100%;
+        }
+        .btn {
+            background: rgb(33,100,16);
+            color: white;
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 3rem;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn:hover {
+            background: #1f6e12;
+            transform: translateY(-2px);
+        }
+        .error-msg, .success-msg {
+            padding: 0.8rem;
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-weight: 500;
+        }
+        .error-msg { background: #ffe6e6; color: rgb(226,43,150); border-left: 4px solid rgb(226,43,150); }
+        .success-msg { background: #d4edda; color: rgb(33,100,16); border-left: 4px solid rgb(33,100,16); }
+        .warning-hint {
+            font-size: 0.75rem;
+            margin-top: 0.4rem;
+            color: #b91c1c;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        @media (max-width: 600px) {
+            .row-2 { grid-template-columns: 1fr; }
+            .container { padding: 1.5rem; }
+            .image-preview {
+                max-height: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1><i class="fas fa-heart"></i> Crear cuenta</h1>
+    <div class="subtitle">Únete a nuestra comunidad y encuentra personas afines</div>
+
+    <div id="statusMsg"></div>
+
+    <form id="registerForm" action="Api/reg.php" method="POST" enctype="multipart/form-data">
+        <div class="row-2">
+            <div class="form-group">
+                <label><i class="fas fa-user"></i> Nombre completo *</label>
+                <input type="text" name="nombre_completo" minlength="10" maxlength="64" required>
+            </div>
+            <div class="form-group" id="dobGroup">
+                <label><i class="fas fa-calendar-alt"></i> Fecha nacimiento *</label>
+                <input type="date" name="fecha_nacimiento" id="fechaNacimiento" required>
+                <div id="ageHint" class="warning-hint" style="display: none;">
+                    <i class="fas fa-exclamation-triangle"></i> <span id="ageMessage"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row-2">
+            <div class="form-group">
+                <label><i class="fas fa-envelope"></i> Email *</label>
+                <input type="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-phone"></i> Teléfono *</label>
+                <input type="tel" name="telefono" pattern="[0-9]{10}" title="El número debe tener 10 dígitos sin espacios ni guiones" required>
+                <small>Esto te ayudara a la recuperacion de tu cuenta.</small>
+            </div>
+        </div>
+
+        <div class="row-2">
+            <div class="form-group">
+                <label><i class="fas fa-lock"></i> Contraseña *</label>
+                <input type="password" name="password" required minlength="6">
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-check-circle"></i> Confirmar contraseña *</label>
+                <input type="password" name="confirm_password" required>
+            </div>
+        </div>
+
+        <div class="row-2">
+            <div class="form-group">
+                <label><i class="fas fa-venus-mars"></i> Género *</label>
+                <select name="genero" required>
+                    <option value="">Selecciona...</option>
+                    <option value="mujer">Mujer</option>
+                    <option value="hombre">Hombre</option>
+                    <option value="therianmujer">Therian Mujer</option>
+                    <option value="therianhombre">Therian Hombre</option>
+                    <option value="therianmujer">Miembro LGBT...</option>
+                    <option value="otro">Otro</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label><i class="fas fa-heart"></i> Busco *</label>
+                <select name="busca" required>
+                    <option value="">Selecciona...</option>
+                    <option value="relacion">Relación seria</option>
+                    <option value="amistad">Amistad</option>
+                    <option value="citas_casuales">Citas casuales</option>
+                    <option value="conocer_gente">Conocer gente</option>
+                    <option value="curiosear">Curiosear</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label><i class="fas fa-venus-mars"></i> Me interesa conocer a: *</label>
+            <select name="busca_sexo" required>
+                <option value="">Selecciona...</option>
+                <option value="H">Hombres</option>
+                <option value="M">Mujeres</option>
+                <option value="D">Ambos (LGTB...)</option>
+                <option value="TM">Therian Mujeres</option>
+                <option value="TH">Therian Hombres</option>
+                <option value="AT">Ambos Therians</option>
+                <option value="A">Todos</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label><i class="fas fa-map-marker-alt"></i> Municipio</label>
+            <select name="ciudad" id="municipioSelect" required>
+                <option value="">Selecciona...</option>
+                <option value="Acambay">Acambay</option>
+                <option value="Acolman">Acolman</option>
+                <option value="Aculco">Aculco</option>
+                <option value="Almoloya de Alquisiras">Almoloya de Alquisiras</option>
+                <option value="Almoloya de Juárez">Almoloya de Juárez</option>
+                <option value="Almoloya del Río">Almoloya del Río</option>
+                <option value="Amanalco">Amanalco</option>
+                <option value="Amatepec">Amatepec</option>
+                <option value="Amecameca">Amecameca</option>
+                <option value="Apaxco">Apaxco</option>
+                <option value="Atenco">Atenco</option>
+                <option value="Atizapán">Atizapán</option>
+                <option value="Atizapán de Zaragoza">Atizapán de Zaragoza</option>
+                <option value="Atlacomulco">Atlacomulco</option>
+                <option value="Atlautla">Atlautla</option>
+                <option value="Axapusco">Axapusco</option>
+                <option value="Ayapango">Ayapango</option>
+                <option value="Calimaya">Calimaya</option>
+                <option value="Capulhuac">Capulhuac</option>
+                <option value="Chalco">Chalco</option>
+                <option value="Chapa de Mota">Chapa de Mota</option>
+                <option value="Chapultepec">Chapultepec</option>
+                <option value="Chiautla">Chiautla</option>
+                <option value="Chicoloapan">Chicoloapan</option>
+                <option value="Chiconcuac">Chiconcuac</option>
+                <option value="Chimalhuacán">Chimalhuacán</option>
+                <option value="Coacalco de Berriozábal">Coacalco de Berriozábal</option>
+                <option value="Coatepec Harinas">Coatepec Harinas</option>
+                <option value="Cocotitlán">Cocotitlán</option>
+                <option value="Coyotepec">Coyotepec</option>
+                <option value="Cuautitlán">Cuautitlán</option>
+                <option value="Cuautitlán Izcalli">Cuautitlán Izcalli</option>
+                <option value="Donato Guerra">Donato Guerra</option>
+                <option value="Ecatepec de Morelos">Ecatepec de Morelos</option>
+                <option value="Ecatzingo">Ecatzingo</option>
+                <option value="Huehuetoca">Huehuetoca</option>
+                <option value="Hueypoxtla">Hueypoxtla</option>
+                <option value="Huixquilucan">Huixquilucan</option>
+                <option value="Isidro Fabela">Isidro Fabela</option>
+                <option value="Ixtapaluca">Ixtapaluca</option>
+                <option value="Ixtapan de la Sal">Ixtapan de la Sal</option>
+                <option value="Ixtapan del Oro">Ixtapan del Oro</option>
+                <option value="Ixtlahuaca">Ixtlahuaca</option>
+                <option value="Jaltenco">Jaltenco</option>
+                <option value="Jilotepec">Jilotepec</option>
+                <option value="Jilotzingo">Jilotzingo</option>
+                <option value="Jiquipilco">Jiquipilco</option>
+                <option value="Jocotitlán">Jocotitlán</option>
+                <option value="Joquicingo">Joquicingo</option>
+                <option value="Juchitepec">Juchitepec</option>
+                <option value="La Paz">La Paz</option>
+                <option value="Lerma">Lerma</option>
+                <option value="Luvianos">Luvianos</option>
+                <option value="Malinalco">Malinalco</option>
+                <option value="Melchor Ocampo">Melchor Ocampo</option>
+                <option value="Metepec">Metepec</option>
+                <option value="Mexicaltzingo">Mexicaltzingo</option>
+                <option value="Morelos">Morelos</option>
+                <option value="Naucalpan de Juárez">Naucalpan de Juárez</option>
+                <option value="Nezahualcóyotl">Nezahualcóyotl</option>
+                <option value="Nextlalpan">Nextlalpan</option>
+                <option value="Nicolás Romero">Nicolás Romero</option>
+                <option value="Nopaltepec">Nopaltepec</option>
+                <option value="Ocoyoacac">Ocoyoacac</option>
+                <option value="Ocuilan">Ocuilan</option>
+                <option value="El Oro">El Oro</option>
+                <option value="Otumba">Otumba</option>
+                <option value="Otzoloapan">Otzoloapan</option>
+                <option value="Otzolotepec">Otzolotepec</option>
+                <option value="Ozumba">Ozumba</option>
+                <option value="Papalotla">Papalotla</option>
+                <option value="Polotitlán">Polotitlán</option>
+                <option value="Rayón">Rayón</option>
+                <option value="San Antonio la Isla">San Antonio la Isla</option>
+                <option value="San Felipe del Progreso">San Felipe del Progreso</option>
+                <option value="San José del Rincón">San José del Rincón</option>
+                <option value="San Martín de las Pirámides">San Martín de las Pirámides</option>
+                <option value="San Mateo Atenco">San Mateo Atenco</option>
+                <option value="San Simón de Guerrero">San Simón de Guerrero</option>
+                <option value="Santo Tomás">Santo Tomás</option>
+                <option value="Soyaniquilpan de Juárez">Soyaniquilpan de Juárez</option>
+                <option value="Sultepec">Sultepec</option>
+                <option value="Tecámac">Tecámac</option>
+                <option value="Tejupilco">Tejupilco</option>
+                <option value="Temamatla">Temamatla</option>
+                <option value="Temascalapa">Temascalapa</option>
+                <option value="Temascalcingo">Temascalcingo</option>
+                <option value="Temascaltepec">Temascaltepec</option>
+                <option value="Temoaya">Temoaya</option>
+                <option value="Tenancingo">Tenancingo</option>
+                <option value="Tenango del Aire">Tenango del Aire</option>
+                <option value="Tenango del Valle">Tenango del Valle</option>
+                <option value="Teoloyucan">Teoloyucan</option>
+                <option value="Teotihuacán">Teotihuacán</option>
+                <option value="Tepetlaoxtoc">Tepetlaoxtoc</option>
+                <option value="Tepetlixpa">Tepetlixpa</option>
+                <option value="Tepotzotlán">Tepotzotlán</option>
+                <option value="Tequixquiac">Tequixquiac</option>
+                <option value="Texcaltitlán">Texcaltitlán</option>
+                <option value="Texcalyacac">Texcalyacac</option>
+                <option value="Texcoco">Texcoco</option>
+                <option value="Tezoyuca">Tezoyuca</option>
+                <option value="Tianguistenco">Tianguistenco</option>
+                <option value="Timilpan">Timilpan</option>
+                <option value="Tlalmanalco">Tlalmanalco</option>
+                <option value="Tlalnepantla de Baz">Tlalnepantla de Baz</option>
+                <option value="Tlatlaya">Tlatlaya</option>
+                <option value="Toluca">Toluca</option>
+                <option value="Tonatico">Tonatico</option>
+                <option value="Tultepec">Tultepec</option>
+                <option value="Tultitlán">Tultitlán</option>
+                <option value="Valle de Bravo">Valle de Bravo</option>
+                <option value="Villa de Allende">Villa de Allende</option>
+                <option value="Villa del Carbón">Villa del Carbón</option>
+                <option value="Villa Guerrero">Villa Guerrero</option>
+                <option value="Villa Victoria">Villa Victoria</option>
+                <option value="Xalatlaco">Xalatlaco</option>
+                <option value="Xonacatlán">Xonacatlán</option>
+                <option value="Zacazonapan">Zacazonapan</option>
+                <option value="Zacualpan">Zacualpan</option>
+                <option value="Zinacantepec">Zinacantepec</option>
+                <option value="Zumpahuacán">Zumpahuacán</option>
+                <option value="Zumpango">Zumpango</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label><i class="fas fa-school"></i> Selecciona Tu Plantel: *</label>
+            <select name="plantel" required>
+                <option value="">Selecciona...</option>
+                <option value="Centro Universitario UAEM Amecameca">Centro Universitario UAEM Amecameca</option>
+                <option value="Centro Universitario UAEM Atlacomulco">Centro Universitario UAEM Atlacomulco</option>
+                <option value="Centro Universitario UAEM Ecatepec">Centro Universitario UAEM Ecatepec</option>
+                <option value="Centro Universitario UAEM Temascaltepec">Centro Universitario UAEM Temascaltepec</option>
+                <option value="Centro Universitario UAEM Tenancingo">Centro Universitario UAEM Tenancingo</option>
+                <option value="Centro Universitario UAEM Teotihuacan">Centro Universitario UAEM Teotihuacan</option>
+                <option value="Centro Universitario UAEM Texcoco">Centro Universitario UAEM Texcoco</option>
+                <option value="Centro Universitario UAEM Valle de Chalco">Centro Universitario UAEM Valle de Chalco</option>
+                <option value="Centro Universitario UAEM Valle de México">Centro Universitario UAEM Valle de México</option>
+                <option value="Centro Universitario UAEM Zumpango">Centro Universitario UAEM Zumpango</option>
+                <option value="Centro Universitario UAEM Chimalhuacán">Centro Universitario UAEM Chimalhuacán</option>
+                <option value="Facultad de Ciencias">Facultad de Ciencias</option>
+                <option value="Facultad de Ciencias de la Conducta">Facultad de Ciencias de la Conducta</option>
+                <option value="Facultad de Ciencias Agrícolas">Facultad de Ciencias Agrícolas</option>
+                <option value="Facultad de Medicina">Facultad de Medicina</option>
+                <option value="Facultad de Química">Facultad de Química</option>
+                <option value="Facultad de Medicina Veterinaria y Zootecnia">Facultad de Medicina Veterinaria y Zootecnia</option>
+                <option value="Facultad de Enfermería y Obstetricia">Facultad de Enfermería y Obstetricia</option>
+                <option value="Facultad de Lenguas">Facultad de Lenguas</option>
+                <option value="Facultad de Antropología">Facultad de Antropología</option>
+                <option value="Facultad de Derecho">Facultad de Derecho</option>
+                <option value="Facultad de Economía">Facultad de Economía</option>
+                <option value="Facultad de Artes">Facultad de Artes</option>
+                <option value="Facultad de Ciencias Políticas y Sociales">Facultad de Ciencias Políticas y Sociales</option>
+                <option value="Facultad de Contaduría y Administración">Facultad de Contaduría y Administración</option>
+                <option value="Facultad de Ingeniería">Facultad de Ingeniería</option>
+                <option value="Facultad de Arquitectura y Diseño">Facultad de Arquitectura y Diseño</option>
+                <option value="Facultad de Odontología">Facultad de Odontología</option>
+                <option value="Facultad de Geografía">Facultad de Geografía</option>
+                <option value="Facultad de Turismo y Gastronomía">Facultad de Turismo y Gastronomía</option>
+                <option value="Facultad de Humanidades">Facultad de Humanidades</option>
+                <option value="Facultad de Planeación Urbana y Regional">Facultad de Planeación Urbana y Regional</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label><i class="fas fa-comment"></i> Biografía *</label>
+            <textarea name="bio" rows="3" minlength="10" placeholder="Cuéntanos sobre ti..." required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label><i class="fas fa-camera"></i> Foto de perfil (FOTO REAL) *</label>
+            <div class="upload-area" onclick="document.getElementById('foto_perfil').click()">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <p>Haz clic para subir la mejor foto de tu galeria</p>
+            </div>
+            <input type="file" id="foto_perfil" name="foto_perfil" accept="image/jpeg,image/png,image/jpg" style="display:none" required>
+            <div id="previewPerfil" class="image-preview-container">
+                <div class="preview-placeholder"><i class="fas fa-image"></i> Vista previa de la foto de perfil</div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label><i class="fas fa-id-card"></i> Identificación UAEMex (DEBERA COINCIDIR CON TU NOMBRE) *</label>
+            <div class="upload-area" onclick="document.getElementById('foto_identificacion').click()">
+                <i class="fas fa-id-card"></i>
+                <p>Sube foto o captura de tu credencial</p>
+            </div>
+            <input type="file" id="foto_identificacion" name="foto_identificacion" accept="image/jpeg,image/png,image/jpg" style="display:none" required>
+            <div id="previewIdentificacion" class="image-preview-container">
+                <div class="preview-placeholder"><i class="fas fa-id-card"></i> Vista previa de identificación</div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn"><i class="fas fa-user-plus"></i> Registrarme</button>
+    </form>
+    <p style="text-align:center; margin-top:1.5rem;">¿Ya tienes cuenta? <a href="login.html">Inicia sesión</a></p>
+</div>
+
+<script>
+    // ---------- FUNCIONES DE PREVISUALIZACIÓN DE IMÁGENES (Autoajustables) ----------
+    function crearPreview(file, contenedorId) {
+        const contenedor = document.getElementById(contenedorId);
+        if (!contenedor) return;
+        
+        if (!file || !file.type.startsWith('image/')) {
+            contenedor.innerHTML = '<div class="preview-placeholder"><i class="fas fa-image"></i> Vista previa no disponible</div>';
+            return;
+        }
+        
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            // Crear imagen con estilos que mantienen la relación de aspecto
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.alt = 'Vista previa';
+            img.className = 'image-preview';
+            // La imagen se autoajustará gracias a CSS: max-width, max-height, object-fit: contain
+            contenedor.innerHTML = '';
+            contenedor.appendChild(img);
+        };
+        reader.onerror = function() {
+            contenedor.innerHTML = '<div class="preview-placeholder"><i class="fas fa-exclamation-triangle"></i> Error al cargar la imagen</div>';
+        };
+        reader.readAsDataURL(file);
+    }
+    
+    function limpiarPreview(contenedorId) {
+        const contenedor = document.getElementById(contenedorId);
+        if (contenedor) {
+            contenedor.innerHTML = '<div class="preview-placeholder"><i class="fas fa-image"></i> Vista previa</div>';
+        }
+    }
+    
+    // ---------- FUNCIÓN PARA CALCULAR EDAD EXACTA (años cumplidos) ----------
+    function calcularEdad(fechaNacimientoStr) {
+        if (!fechaNacimientoStr) return null;
+        const hoy = new Date();
+        const nacimiento = new Date(fechaNacimientoStr);
+        if (isNaN(nacimiento.getTime())) return null;
+        let edad = hoy.getFullYear() - nacimiento.getFullYear();
+        const mesActual = hoy.getMonth();
+        const diaActual = hoy.getDate();
+        const mesNac = nacimiento.getMonth();
+        const diaNac = nacimiento.getDate();
+        if (mesActual < mesNac || (mesActual === mesNac && diaActual < diaNac)) {
+            edad--;
+        }
+        return edad;
+    }
+    
+    // ---------- ELEMENTOS DEL DOM ----------
+    const fechaInput = document.getElementById('fechaNacimiento');
+    const ageHintDiv = document.getElementById('ageHint');
+    const ageMessageSpan = document.getElementById('ageMessage');
+    const statusMsgDiv = document.getElementById('statusMsg');
+    const form = document.getElementById('registerForm');
+    
+    // Elementos de previsualización
+    const fotoPerfilInput = document.getElementById('foto_perfil');
+    const fotoIdentificacionInput = document.getElementById('foto_identificacion');
+    const previewPerfil = 'previewPerfil';
+    const previewIdentificacion = 'previewIdentificacion';
+    
+    // Eventos de previsualización para foto de perfil
+    if (fotoPerfilInput) {
+        fotoPerfilInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                crearPreview(file, previewPerfil);
+                // Actualizar texto del área de upload (opcional)
+                const uploadAreas = document.querySelectorAll('.upload-area');
+                if (uploadAreas[0]) {
+                    uploadAreas[0].innerHTML = `<i class="fas fa-check-circle" style="color:rgb(33,100,16);"></i><p style="font-weight:500;">${file.name}</p><small style="font-size:0.7rem;">✓ archivo seleccionado</small>`;
+                }
+            } else {
+                limpiarPreview(previewPerfil);
+                const uploadAreas = document.querySelectorAll('.upload-area');
+                if (uploadAreas[0]) {
+                    uploadAreas[0].innerHTML = `<i class="fas fa-cloud-upload-alt"></i><p>Haz clic para subir la mejor foto de tu galeria</p>`;
+                }
+            }
+        });
+    }
+    
+    // Eventos de previsualización para identificación
+    if (fotoIdentificacionInput) {
+        fotoIdentificacionInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                crearPreview(file, previewIdentificacion);
+                const uploadAreas = document.querySelectorAll('.upload-area');
+                if (uploadAreas[1]) {
+                    uploadAreas[1].innerHTML = `<i class="fas fa-id-card"></i><p style="font-weight:500;">${file.name}</p><small style="font-size:0.7rem;">✓ documento cargado</small>`;
+                }
+            } else {
+                limpiarPreview(previewIdentificacion);
+                const uploadAreas = document.querySelectorAll('.upload-area');
+                if (uploadAreas[1]) {
+                    uploadAreas[1].innerHTML = `<i class="fas fa-id-card"></i><p>Sube foto o captura de tu credencial</p>`;
+                }
+            }
+        });
+    }
+    
+    // ---------- VALIDACIÓN DE EDAD (tiempo real) ----------
+    function limpiarErrorFecha() {
+        fechaInput.classList.remove('error-field');
+        if (ageHintDiv) ageHintDiv.style.display = 'none';
+    }
+    
+    function mostrarErrorEdadTiempoReal(mensaje) {
+        fechaInput.classList.add('error-field');
+        if (ageHintDiv) {
+            ageMessageSpan.innerText = mensaje;
+            ageHintDiv.style.display = 'flex';
+        }
+    }
+    
+    function validarEdadTiempoReal() {
+        limpiarErrorFecha();
+        const fechaValue = fechaInput.value;
+        if (!fechaValue) return;
+        const edad = calcularEdad(fechaValue);
+        const fechaObj = new Date(fechaValue);
+        const hoy = new Date();
+        hoy.setHours(0,0,0,0);
+        
+        if (isNaN(fechaObj.getTime())) {
+            mostrarErrorEdadTiempoReal('📅 Fecha no válida');
+            return;
+        }
+        if (fechaObj > hoy) {
+            mostrarErrorEdadTiempoReal('⛔ La fecha no puede ser futura');
+            return;
+        }
+        if (edad === null) {
+            mostrarErrorEdadTiempoReal('❓ Error al calcular edad');
+            return;
+        }
+        if (edad < 18) {
+            mostrarErrorEdadTiempoReal(`🔞 Debes tener al menos 18 años. Actualmente tienes ${edad} años.`);
+        } else {
+            fechaInput.classList.remove('error-field');
+            if (ageHintDiv) ageHintDiv.style.display = 'none';
+        }
+    }
+    
+    fechaInput.addEventListener('change', validarEdadTiempoReal);
+    fechaInput.addEventListener('blur', validarEdadTiempoReal);
+    if (fechaInput.value) validarEdadTiempoReal();
+    
+    // ---------- VALIDACIÓN EN EL ENVÍO DEL FORMULARIO ----------
+    form.addEventListener('submit', function(e) {
+        // Validación de contraseñas
+        const pass = form.querySelector('[name="password"]').value;
+        const confirm = form.querySelector('[name="confirm_password"]').value;
+        
+        if (pass !== confirm) {
+            e.preventDefault();
+            statusMsgDiv.innerHTML = '<div class="error-msg"><i class="fas fa-exclamation-circle"></i> Las contraseñas no coinciden</div>';
+            statusMsgDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            return false;
+        }
+        
+        if (pass.length < 6) {
+            e.preventDefault();
+            statusMsgDiv.innerHTML = '<div class="error-msg"><i class="fas fa-exclamation-circle"></i> La contraseña debe tener al menos 6 caracteres</div>';
+            statusMsgDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            return false;
+        }
+        
+        // Validación de edad
+        const fechaNacimiento = fechaInput.value;
+        if (!fechaNacimiento) {
+            e.preventDefault();
+            statusMsgDiv.innerHTML = '<div class="error-msg"><i class="fas fa-calendar-times"></i> Debes ingresar tu fecha de nacimiento.</div>';
+            fechaInput.classList.add('error-field');
+            statusMsgDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            return false;
+        }
+        
+        const edad = calcularEdad(fechaNacimiento);
+        const fechaObj = new Date(fechaNacimiento);
+        const hoy = new Date();
+        hoy.setHours(0,0,0,0);
+        
+        if (isNaN(fechaObj.getTime())) {
+            e.preventDefault();
+            statusMsgDiv.innerHTML = '<div class="error-msg"><i class="fas fa-calendar-times"></i> La fecha de nacimiento no es válida.</div>';
+            fechaInput.classList.add('error-field');
+            statusMsgDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            return false;
+        }
+        
+        if (fechaObj > hoy) {
+            e.preventDefault();
+            statusMsgDiv.innerHTML = '<div class="error-msg"><i class="fas fa-hourglass-half"></i> La fecha de nacimiento no puede ser futura.</div>';
+            fechaInput.classList.add('error-field');
+            statusMsgDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            return false;
+        }
+        
+        if (edad === null || edad < 18) {
+            e.preventDefault();
+            const edadMostrar = (edad !== null && edad !== undefined) ? edad : 'desconocida';
+            statusMsgDiv.innerHTML = `<div class="error-msg"><i class="fas fa-ban"></i> ⚠️ Debes tener al menos 18 años para registrarte. Edad detectada: ${edadMostrar} años.</div>`;
+            fechaInput.classList.add('error-field');
+            if (ageHintDiv) {
+                ageMessageSpan.innerText = `🔞 Necesitas 18 años o más. Edad: ${edadMostrar}`;
+                ageHintDiv.style.display = 'flex';
+            }
+            statusMsgDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            return false;
+        }
+        
+        // Validación de archivos (opcional pero recomendado)
+        const fotoPerfil = fotoPerfilInput.files[0];
+        const fotoIdentificacion = fotoIdentificacionInput.files[0];
+        
+        if (!fotoPerfil) {
+            e.preventDefault();
+            statusMsgDiv.innerHTML = '<div class="error-msg"><i class="fas fa-camera"></i> Debes seleccionar una foto de perfil.</div>';
+            statusMsgDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            return false;
+        }
+        
+        if (!fotoIdentificacion) {
+            e.preventDefault();
+            statusMsgDiv.innerHTML = '<div class="error-msg"><i class="fas fa-id-card"></i> Debes subir tu identificación UAEMex.</div>';
+            statusMsgDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            return false;
+        }
+        
+        // Limpiar errores visuales
+        fechaInput.classList.remove('error-field');
+        if (ageHintDiv) ageHintDiv.style.display = 'none';
+        
+        return true;
+    });
+    
+    // Limpiar mensajes de error al editar campos
+    const camposCriticos = ['[name="password"]', '[name="confirm_password"]', '#fechaNacimiento'];
+    camposCriticos.forEach(selector => {
+        const campo = document.querySelector(selector);
+        if (campo) {
+            campo.addEventListener('input', function() {
+                if (statusMsgDiv.innerHTML !== '' && statusMsgDiv.querySelector('.error-msg')) {
+                    statusMsgDiv.innerHTML = '';
+                }
+                if (selector === '#fechaNacimiento') {
+                    validarEdadTiempoReal();
+                }
+            });
+        }
+    });
+    
+    // Mejora: al cambiar fecha válida, limpiar errores de edad
+    fechaInput.addEventListener('change', function() {
+        const edad = calcularEdad(fechaInput.value);
+        if (edad && edad >= 18 && statusMsgDiv.innerHTML.includes('18 años')) {
+            statusMsgDiv.innerHTML = '';
+        }
+        if (edad && edad >= 18) {
+            fechaInput.classList.remove('error-field');
+            if (ageHintDiv) ageHintDiv.style.display = 'none';
+        }
+    });
+</script>
+</body>
+</html>

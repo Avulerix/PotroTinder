@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Potro-Tinder</title>
+    <!-- Fuentes modernas y limpias -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <!-- FontAwesome 6 (gratuito, iconos) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Fondo neutro suave para que resalten los colores nuevos */
+            background: #69ffa2;
+            color: #2d2a2e;
+            line-height: 1.4;
+            scroll-behavior: smooth;
+        }
+
+        /* contenedor principal con espacio y transiciones */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* patrón de fondo sutil con los nuevos colores en formas orgánicas */
+        .hero::before {
+            content: "";
+            position: absolute;
+            width: 180%;
+            height: 180%;
+            top: -40%;
+            left: -40%;
+            background: radial-gradient(circle at 30% 40%, rgba(33, 100, 16, 0.08) 0%, rgba(226, 43, 150, 0.05) 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 25%;
+            background: linear-gradient(to top, rgba(33, 100, 16, 0.03), transparent);
+            pointer-events: none;
+        }
+
+        /* tarjeta principal: glassmorphism + calidez, pero con toques de los nuevos colores */
+        .welcome-card {
+            background: rgba(255, 255, 250, 0.94);
+            backdrop-filter: blur(12px);
+            border-radius: 3rem;
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 250, 0.7) inset;
+            max-width: 1000px;
+            width: 100%;
+            padding: 2.5rem 2rem;
+            transition: transform 0.3s ease;
+            z-index: 2;
+        }
+
+        @media (min-width: 768px) {
+            .welcome-card {
+                padding: 2.8rem 3rem;
+            }
+        }
+
+        /* cabecera con el nombre de la página: color especial solo en el título */
+        .brand-header {
+            text-align: center;
+            margin-bottom: 1.8rem;
+        }
+
+        .page-title {
+            font-size: 2.4rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            /* Color específico para el nombre de la página: rgb(226, 43, 150) */
+            color: rgb(226, 43, 150);
+            background: none;
+            -webkit-background-clip: unset;
+            background-clip: unset;
+            text-shadow: 0 2px 5px rgba(226, 43, 150, 0.1);
+            display: inline-block;
+            border-bottom: 3px solid rgb(33, 100, 16);
+            padding-bottom: 0.2rem;
+        }
+
+        @media (min-width: 640px) {
+            .page-title {
+                font-size: 2.8rem;
+            }
+        }
+
+        /* layout interno simplificado: solo texto, botones y pie */
+        .content-centered {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        /* chip decorativo con colores nuevos */
+        .chip {
+            display: inline-block;
+            background: rgba(33, 100, 16, 0.12);
+            backdrop-filter: blur(2px);
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: rgb(33, 100, 16);
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.2px;
+        }
+
+        .chip i {
+            margin-right: 6px;
+            color: rgb(226, 43, 150);
+        }
+
+        .tagline {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: rgb(33, 100, 16);
+            margin-bottom: 1rem;
+            background: rgba(33, 100, 16, 0.05);
+            display: inline-block;
+            padding: 0.2rem 1.2rem;
+            border-radius: 60px;
+        }
+
+        .description {
+            color: #2e3a2a;
+            font-weight: 500;
+            line-height: 1.55;
+            margin: 1.8rem 0 2rem;
+            font-size: 1.1rem;
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* botones CTA modernos: registro y acceso */
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            justify-content: center;
+            margin: 2rem 0 1.2rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.9rem 2rem;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.25s ease;
+            cursor: pointer;
+            text-decoration: none;
+            border: none;
+            background: none;
+            font-family: inherit;
+        }
+
+        /* botón registro principal: mezcla de colores */
+        .btn-primary {
+            background: rgb(33, 100, 16);
+            color: white;
+            box-shadow: 0 8px 18px rgba(33, 100, 16, 0.35);
+        }
+
+        .btn-primary:hover {
+            background: #1f6e12;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px -8px rgba(33, 100, 16, 0.5);
+        }
+
+        /* botón de acceso: outline con rgb(226, 43, 150) */
+        .btn-outline {
+            background: transparent;
+            border: 1.8px solid rgb(226, 43, 150);
+            color: rgb(226, 43, 150);
+        }
+
+        .btn-outline:hover {
+            background: rgba(226, 43, 150, 0.08);
+            border-color: rgb(226, 43, 150);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(226, 43, 150, 0.2);
+        }
+
+        /* ============================================ */
+        /* BOTÓN NOVEDADES - ESTILO MODERNO Y LLAMATIVO  */
+        /* ============================================ */
+        .btn-novedades {
+            background: linear-gradient(135deg, rgb(226,43,150) 0%, rgb(255,105,180) 50%, rgb(33,100,16) 100%);
+            background-size: 150% auto;
+            color: white;
+            border: none;
+            box-shadow: 0 8px 20px rgba(226,43,150,0.4);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .btn-novedades::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-novedades:hover::before {
+            left: 100%;
+        }
+
+        .btn-novedades:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 28px rgba(226,43,150,0.5);
+            background-position: right center;
+        }
+
+        .btn-novedades i {
+            transition: transform 0.3s ease;
+        }
+
+        .btn-novedades:hover i {
+            transform: rotate(5deg) scale(1.1);
+        }
+
+        /* separador decorativo entre grupos de botones */
+        .divider-novedades {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1.2rem 0 0.8rem;
+        }
+
+        .divider-line {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgb(226,43,150), rgb(33,100,16), transparent);
+            flex: 1;
+        }
+
+        .divider-text {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #8a9a82;
+            letter-spacing: 1px;
+        }
+
+        /* animación sutil en los botones y elementos decorativos */
+        @keyframes gentlePulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        .btn-primary {
+            animation: gentlePulse 2s infinite ease-in-out;
+        }
+
+        .btn-primary:hover {
+            animation: none;
+        }
+
+        /* estadísticas reducidas (opcional, pero forma parte del pie de página "conexiones") */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+            padding-top: 1.2rem;
+            border-top: 1px solid rgba(33, 100, 16, 0.15);
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .stat-number {
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: rgb(33, 100, 16);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #4b5e41;
+        }
+
+        /* mini características (reducidas a 3 elementos esenciales) */
+        .mini-features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.8rem;
+            margin: 2.2rem 0 1.5rem;
+        }
+
+        .mini-feature {
+            background: rgba(33, 100, 16, 0.04);
+            padding: 0.6rem 1.2rem;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #2b4721;
+        }
+
+        .mini-feature i {
+            color: rgb(226, 43, 150);
+            font-size: 1rem;
+        }
+
+        /* Pie de página moderno y con links */
+        .footer-note {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.8rem;
+            color: #6c7a64;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(33, 100, 16, 0.2);
+        }
+
+        .footer-note a {
+            color: rgb(226, 43, 150);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .footer-note a:hover {
+            color: rgb(33, 100, 16);
+            text-decoration: underline;
+        }
+
+        .footer-note span i {
+            margin-right: 4px;
+            color: rgb(33, 100, 16);
+        }
+
+        /* animación de flotación para un corazón decorativo */
+        @keyframes floatHeart {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+
+        .floating-heart {
+            display: inline-block;
+            animation: floatHeart 3s infinite ease;
+            font-size: 1.1rem;
+            margin-left: 6px;
+        }
+
+        /* botón flotante decorativo con los colores */
+        .deco-badge {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 99;
+            background: white;
+            border-radius: 60px;
+            padding: 8px 18px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            font-size: 13px;
+            font-weight: 600;
+            backdrop-filter: blur(4px);
+            background: rgba(255, 255, 245, 0.92);
+            border-left: 3px solid rgb(226, 43, 150);
+            color: rgb(33, 100, 16);
+        }
+
+        .deco-badge i {
+            color: rgb(226, 43, 150);
+            margin-right: 6px;
+        }
+
+        /* responsive adicional */
+        @media (max-width: 600px) {
+            .welcome-card {
+                padding: 1.8rem 1.2rem;
+            }
+            .description {
+                max-width: 100%;
+                font-size: 1rem;
+            }
+            .btn-group {
+                gap: 0.9rem;
+            }
+            .btn {
+                padding: 0.7rem 1.4rem;
+                font-size: 0.9rem;
+            }
+            .stats {
+                gap: 1rem;
+            }
+            .footer-note {
+                gap: 0.8rem;
+                font-size: 0.7rem;
+            }
+            .page-title {
+                font-size: 2rem;
+            }
+            .btn-novedades {
+                padding: 0.7rem 1.2rem;
+                font-size: 0.85rem;
+            }
+            .divider-text {
+                font-size: 0.6rem;
+            }
+        }
+
+        /* efecto extra para el botón novedades: badge animado */
+        @keyframes shine {
+            0% { background-position: -100%; }
+            100% { background-position: 200%; }
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="welcome-card">
+            <!-- Cabecera con el nombre de la página: solo aquí se aplica rgb(226, 43, 150) -->
+            <div class="brand-header">
+                <h1 class="page-title" style="color: rgb(33, 100, 16);">
+                    <i class="fas fa-heart" style=" color: rgb(226, 43, 150); font-size: 0.9em;"></i> 
+                    Potro-Tinder
+                    <span class="floating-heart">✨</span>
+                </h1>
+            </div>
+            <!-----SECCION DE MENSAJE DE APOYO----->
+            <div class="content-centered" style=" border-radius: 20px; background-color: rgb(226, 43, 150); padding-left: 10px; padding-right: 10px; padding: 2px;">
+                <br>
+                <div class="tagline" style="color: white;">
+                    APOYANOS EN NUESTRO CRECIMIENTO ;)
+                </div>
+                <p class="description" style="color: white;">
+                    En <strong>Potro-Tinder</strong> agradecemos tu confianza en nosotros
+                    y esperamos que tu experiencia en la plataforma sea agradable
+                </p>
+                <p class="description" style="color: white;">
+                    Pero ahora necesitamos de tu apoyo para hacer crecer esta comunidad
+                    Por eso te pedimos que compartas este proyecto con tus amigos y conocidos.
+                </p>
+                <p class="description" style="color: white;">
+                    Esperamos tu apoyo y colaboracion :)
+                </p>
+            </div>
+            <br>
+             <div class="divider-novedades">
+                    <span class="divider-line"></span>
+                    <span class="divider-text"><i class="fas fa-star-of-life"></i> CONTINUA HACIA ABAJO <i class="fas fa-star-of-life"></i></span>
+                    <span class="divider-line"></span>
+                </div>
+            <br>
+            <!-----CIERRE DE LA SECION DE MENSAJE------->
+            <div class="content-centered">
+                <span class="chip">
+                    <i class="fas fa-globe"></i> Conexiones Universitarias
+                </span>
+                <div class="tagline">
+                    Donde el amor florece junto con el conocimiento
+                </div>
+                <p class="description">
+                    En <strong>Potro-Tinder</strong> creemos en que los vínculos reales no necesitan complicaciones.
+                    Por ello reunimos a personas para construir relaciones, amistad o algo mas... 
+                </p>
+
+                <!-- Botones de registro y acceso principales -->
+                <div class="btn-group">
+                    <a href="registrer.html" class="btn btn-primary">
+                        <i class="fas fa-user-plus"></i> Crea tu cuenta ahora
+                    </a>
+                    <a href="login.html" class="btn btn-outline">
+                        <i class="fas fa-sign-in-alt"></i> Inicia sesión
+                    </a>
+                </div>
+
+                <!-- ================================================= -->
+                <!-- SECCIÓN NOVEDADES: BOTÓN LLAMATIVO CON ESTILO ÚNICO -->
+                <!-- ================================================= -->
+                <div class="divider-novedades">
+                    <span class="divider-line"></span>
+                    <span class="divider-text"><i class="fas fa-star-of-life"></i> Mantente al día <i class="fas fa-star-of-life"></i></span>
+                    <span class="divider-line"></span>
+                </div>
+
+                <div class="btn-group" style="margin-top: 0rem; margin-bottom: 1.5rem;">
+                    <a href="news.php" class="btn btn-novedades">
+                        <i class="fas fa-newspaper"></i> Novedades y actualizaciones
+                        <i class="fas fa-arrow-right" style="font-size: 0.85rem;"></i>
+                    </a>
+                </div>
+
+                <!-- pequeña descripción que invita a conocer las novedades (opcional) -->
+                <p style="font-size: 0.75rem; color: #8da082; margin-top: -0.8rem; margin-bottom: 1rem;">
+                    <i class="fas fa-megaphone"></i> Nuevas funciones te esperan
+                </p>
+
+                <!-- mini features estilo píldoras (sutiles) -->
+                <div class="mini-features">
+                    <span class="mini-feature"><i class="fas fa-check-circle"></i> Perfiles Universitarios Verificados</span>
+                    <span class="mini-feature"><i class="fas fa-globe"></i> Solteros Disponibles</span>
+                </div>
+
+                <!-- Pie de página con links útiles y más información -->
+                <div class="footer-note">
+                    <span><i class="far fa-gem"></i> Registro gratuito</span>
+                    <a href="seguridad.html"><i class="fas fa-shield-alt"></i> Privacidad segura</a>
+                    <a href="ayuda.html"><i class="fas fa-question-circle"></i> Ayuda</a>
+                    <a href="news.php" style="color: rgb(226,43,150);"><i class="fas fa-newspaper"></i> Novedades</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- pequeño script para dar efecto hover adicional en botón novedades con consola amigable -->
+    <script>
+        // Solo para agregar un pequeño efecto de "News" en el título dinámico opcional (sin romper nada)
+        // Además asegura que el botón de novedades tenga tracking no intrusivo
+        (function() {
+            const btnNovedades = document.querySelector('.btn-novedades');
+            if (btnNovedades) {
+                btnNovedades.addEventListener('click', function(e) {
+                    // Se puede dejar solo como navegación, sin prevenir default
+                    console.log('🔔 Redirigiendo a la sección de novedades de PotroTinder');
+                });
+            }
+        })();
+    </script>
+</body>
+</html>

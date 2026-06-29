@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página No Encontrada | PotroTinder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #fefaf7 0%, #f0f5ec 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+        .error-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 2rem;
+            padding: 3rem 2rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            animation: fadeInUp 0.5s ease-out;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .error-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .error-code {
+            font-size: 6rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, rgb(33,100,16) 0%, rgb(226,43,150) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        .error-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2c3a26;
+            margin-bottom: 1rem;
+        }
+        .error-message {
+            color: #6c7a64;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .search-suggestion {
+            background: #f5f9f2;
+            border-radius: 1rem;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.8rem 1.5rem;
+            border-radius: 3rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.25s ease;
+            cursor: pointer;
+            text-decoration: none;
+            border: none;
+            font-family: inherit;
+        }
+        .btn-primary {
+            background: rgb(33,100,16);
+            color: white;
+            box-shadow: 0 4px 12px rgba(33,100,16,0.3);
+        }
+        .btn-primary:hover {
+            background: #1f6e12;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(33,100,16,0.4);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid rgb(226,43,150);
+            color: rgb(226,43,150);
+        }
+        .btn-outline:hover {
+            background: rgba(226,43,150,0.08);
+            transform: translateY(-2px);
+        }
+        .divider {
+            margin: 2rem 0 1rem;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #e2e8dc, transparent);
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+        .footer-links a {
+            color: #8da082;
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover {
+            color: rgb(226,43,150);
+        }
+        .logo-mini {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-weight: 600;
+            color: rgb(33,100,16);
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+        @media (max-width: 500px) {
+            .error-container { padding: 2rem 1.5rem; }
+            .error-code { font-size: 4rem; }
+            .error-title { font-size: 1.4rem; }
+            .btn { padding: 0.7rem 1.2rem; font-size: 0.85rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="error-container">
+    <div class="logo-mini">
+        <i class="fas fa-heart" style="color: rgb(226,43,150);"></i>
+        <span>PotroTinder</span>
+    </div>
+    <br>
+    <div class="error-icon">
+        <i class="fas fa-compass" style="color: rgb(33,100,16);"></i>
+    </div>
+    <div class="error-code">ERROR 404</div>
+    <h1 class="error-title">Página no encontrada</h1>
+    <p class="error-message">
+        <i class="fas fa-search"></i> Lo sentimos, la página que buscas no existe o ha sido movida.<br>
+        Verifica la URL o explora nuestras secciones principales.
+    </p>
+    
+    <div class="search-suggestion">
+        <i class="fas fa-lightbulb" style="color: rgb(226,43,150);"></i>
+        <span style="color: #4a5c42; font-size: 0.85rem;">¿Intentabas acceder a registro, inicio de sesión o novedades?</span>
+    </div>
+    
+    <div class="btn-group">
+        <a href="../index.html" class="btn btn-primary">
+            <i class="fas fa-home"></i> Ir al inicio
+        </a>
+        <a href="../registrer.html" class="btn btn-outline">
+            <i class="fas fa-user-plus"></i> Registrarme
+        </a>
+    </div>
+    
+    <div class="divider"></div>
+    
+    <div class="footer-links">
+        <a href="../login.html"><i class="fas fa-sign-in-alt"></i> Iniciar sesión</a>
+        <a href="../news.php"><i class="fas fa-newspaper"></i> Novedades</a>
+        <a href="../seguridad.html"><i class="fas fa-shield-alt"></i> Privacidad</a>
+    </div>
+</div>
+</body>
+</html>
