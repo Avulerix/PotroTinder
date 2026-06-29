@@ -1,11 +1,11 @@
 <?php
 #Datos Del Servidor
-    $locate = "sql302.infinityfree.com";
-    $admin = "if0_40376370";
-    $psw = "Zi9YEEp7BFYIa";
+    $locate = "";
+    $admin = "";
+    $psw = "";
     
 #Datos De Base De Datos
-    $database = "if0_40376370_potro";
+    $database = "";
     #Usuarios
 		$usr_table = "usuarios";
     #Rastreo
